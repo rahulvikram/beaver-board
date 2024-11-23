@@ -14,23 +14,36 @@ initializeApp({
 const db = getFirestore();
 
 // test function
-async function getDueDate() {
+const authenticateUser = async (name, email, password) => {
   try {
-    const doc = db.collection('users')
-                .doc('OBz3Qb0DVHKyJtAvK6e8')
-                .collection('classes') 
-                .doc('0lv92s48vK')
-                .get();
-    if (doc.exists) {
-      const dueDate = doc.data().assignments[0].due.toDate();
-      return dueDate;
+    const doc = db.collection('users'); // get the user collection
+    const snapshot = await doc.where('email', '==', email).get();
+    
+    // if user isn't found, we want to create a new user
+    if (snapshot.empty) {
+      const newUser = {
+        email: email,
+        password: password,
+        name: name,
+      }
+      await doc.add(newUser); // add the new user to the entire users collection
+      return newUser; // return the new user
     }
-    return null;
+
+    // if user is found, we want to return the user
+    const user = snapshot.docs[0];
+    return user;
   } catch (error) {
-    console.error('Error fetching due date:', error);
+    console.error('Error authenticating user:', error);
     throw error;
   }
 }
+
+// We will need to make database calls for the following scenarios:
+  // User login, access user collection
+  // On user login, access classes collection
+  // On user login, access assignments collection
+
 
 // Express
 // Middleware to parse JSON bodies
