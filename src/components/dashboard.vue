@@ -16,7 +16,6 @@ import '../assets/base.css'
             </nav>
         </header>
     </div>
-
     <main>
         <!-- renders various views based on the route -->
         <RouterView /> 
