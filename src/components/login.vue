@@ -17,7 +17,7 @@
     async function signUpEndpoint(email, password) {
         try {
             // call fetch to send post request to express endpoint
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch('/login', {
                 method: 'POST',
                 body: JSON.stringify({ email, password })
             })
@@ -35,6 +35,10 @@
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
         
+        if (password.length < 8) {
+            errorMessage.value = 'Password must be at least 8 characters'
+            return
+        }
         // done in backend
         // if email exists but password is incorrect, endpoint returns false
         // if email does not exist, endpoint returns true (new user creation)
@@ -49,7 +53,6 @@
             errorMessage.value = 'Invalid email or password';
         }
     }
-
 </script>
 
 <template>
@@ -65,7 +68,7 @@
         <!-- dynamically render error message if user inputs invalid email or password -->
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
       
-        <button @click="handleLogin">Login</button>
+        <button @click="handleLogin" id="login-button">Login</button>
     </div>
 </template>
 
@@ -73,5 +76,32 @@
 .error-message {
     color: red;
     margin-top: 10px;
+}
+
+#signup-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#signup-modal {
+    background-color: #121212;
+    color: var(--beaver-white);
+    box-shadow: 
+        /* Inner glow from top only */
+        inset 0 30px 50px -20px rgba(255, 255, 255, 0.2),
+        /* Subtle outer shadow for depth */
+        0 0 15px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(145deg, #151515, #101010);
+}
+
+#login-button {
+    padding: 10px;
+    background-color: var(--beaver-orange);
+    color: var(--beaver-white);
+    border: none;
 }
 </style>
