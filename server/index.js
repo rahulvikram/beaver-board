@@ -56,12 +56,6 @@ app.use(cors());
 // occurs when 'npm run build' is executed
 app.use(express.static(path.join(__dirname, '../dist')))
 
-
-// Define a route handler for the default home page
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
 // Handle SPA routing - this handles all routes that are not defined in the server, but are defined via vue routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'))
