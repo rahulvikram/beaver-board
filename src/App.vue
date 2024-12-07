@@ -18,6 +18,6 @@ header {
 main {
   /* min-height: 100vh; */
   font-family: 'Inter Tight', sans-serif;
-  background-color: var(--beaver-black);
+  background-color: #020208;
 }
 </style>

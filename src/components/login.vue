@@ -17,7 +17,7 @@
     async function signUpEndpoint(email, password) {
         try {
             // call fetch to send post request to express endpoint
-            const response = await fetch('/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 body: JSON.stringify({ email, password })
             })
@@ -34,7 +34,7 @@
         // get the email and password from the input fields
         const email = document.getElementById('email').value
         const password = document.getElementById('password').value
-        
+
         if (password.length < 8) {
             errorMessage.value = 'Password must be at least 8 characters'
             return
@@ -57,17 +57,22 @@
 
 <template>
     <div id="signup-modal">
-        <h1>Login</h1>
-        <h3 class="subtext">Sign in to continue</h3>
-        <label for="email">Email</label>
-        <input id="email" type="email" placeholder="example@email.com">
+        <div class="modal-section" id="modal-header">
+            <h1>Login</h1>
+            <h3 class="subtext">Sign in to BeaverBoard to continue</h3>
+        </div>
+        <div class="modal-section" id="modal-email">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="example@email.com">
+        </div>
 
-        <label for="password">Password</label>
-        <input id="password" type="password" placeholder="Must be 8 characters">
+        <div class="modal-section" id="modal-password">   
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Must be 8 characters">
+        </div>
         
         <!-- dynamically render error message if user inputs invalid email or password -->
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-      
         <button @click="handleLogin" id="login-button">Login</button>
     </div>
 </template>
@@ -80,22 +85,86 @@
 
 #signup-modal {
     display: flex;
+    min-width: 390px;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     border: 1px solid black;
     border-radius: 10px;
-    padding: 20px;
+    padding: 50px 45px;
+    gap: 25px;
 }
 
-#signup-modal {
+.modal-section {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.modal-section > label {
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.modal-section > input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(87, 87, 87);
     background-color: #121212;
+    outline: 1px solid transparent;
+    transition: outline 0.2s ease-in-out;
+    color: white;
+}
+
+.modal-section > input:focus {
+    outline: 1px solid var(--beaver-orange);
+    outline-offset: -1px;
+    transition: outline 0.2s ease-in-out;
+    caret-color: white;
+}
+
+#login-button {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: inset 0 -120px 30px -30px rgba(255, 255, 255, 0.014);
+    box-shadow: 0 0 10px var(--beaver-orange);
+    border: 1px solid var(--beaver-orange);
+    transition: all 0.2s ease-in-out;
+}
+
+#login-button:hover {
+    background-color: transparent;
+    border: 1px solid var(--beaver-orange);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: none;
+}
+
+
+#signup-modal {
+    background-color: #0d0e14;
     color: var(--beaver-white);
     box-shadow: 
         /* Inner glow from top only */
-        inset 0 30px 50px -20px rgba(255, 255, 255, 0.2),
+        inset 0 120px 30px -30px rgba(255, 255, 255, 0.014),
         /* Subtle outer shadow for depth */
         0 0 15px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(145deg, #151515, #101010);
+
+    /* background: linear-gradient(145deg, #151515, #101010); */
+}
+
+#modal-header > h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 32px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+#modal-header > h3 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 16px;
 }
 
 #login-button {
