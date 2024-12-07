@@ -15,4 +15,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        // specify the backend URL
+        target: process.env.VITE_API_URL || 'http://localhost:3000',
+        
+        // this changes the port origin from frontend to backend
+        changeOrigin: true, 
+
+        // this is to remove the /api prefix when making requests to the backend
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  }
 })
