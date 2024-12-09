@@ -19,7 +19,7 @@
             // call fetch to send post request to express endpoint
             const response = await fetch('/api/login', {
                 method: 'POST',
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email, password }) // send our email and password to the backend
             })
 
             // process json response
@@ -45,6 +45,8 @@
         // if email exists and password is correct, endpoint returns true
         // call the signup endpoint
         const data = await signUpEndpoint(email, password);
+        
+        // console.log(data)
 
         // if data is true, navigate to dashboard
         if (data) {
@@ -63,7 +65,7 @@
         </div>
         <div class="modal-section" id="modal-email">
             <label for="email">Email</label>
-            <input id="email" type="email" placeholder="example@email.com">
+            <input id="email" type="email" placeholder="beaver@oregonstate.edu">
         </div>
 
         <div class="modal-section" id="modal-password">   
@@ -85,10 +87,10 @@
 
 #signup-modal {
     display: flex;
-    min-width: 390px;
+    min-width: 400px;
     flex-direction: column;
     align-items: left;
-    border: 1px solid black;
+    /* border: 0.5px solid var(--beaver-orange); */
     border-radius: 10px;
     padding: 50px 45px;
     gap: 25px;
@@ -113,6 +115,7 @@
     outline: 1px solid transparent;
     transition: outline 0.2s ease-in-out;
     color: white;
+    font-size: 17px;
 }
 
 .modal-section > input:focus {
@@ -125,7 +128,7 @@
 #login-button {
     padding: 10px;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
     box-shadow: inset 0 -120px 30px -30px rgba(255, 255, 255, 0.014);
     box-shadow: 0 0 10px var(--beaver-orange);
@@ -134,11 +137,11 @@
 }
 
 #login-button:hover {
-    background-color: transparent;
-    border: 1px solid var(--beaver-orange);
+    /* background-color: transparent; */
+    /* border: 1px solid var(--beaver-orange); */
+    box-shadow: 0 0 18px var(--beaver-orange);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    box-shadow: none;
 }
 
 
@@ -157,14 +160,14 @@
 #modal-header > h1 {
     margin: 0;
     font-weight: 600;
-    font-size: 32px;
+    font-size: 34px;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 #modal-header > h3 {
     margin: 0;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 #login-button {
