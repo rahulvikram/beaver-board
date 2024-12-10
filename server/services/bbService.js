@@ -2,20 +2,22 @@ const USER_SCAFFOLD = {
     id: '',
     email: '',
     name: '',
-    classes: [],
+    classes: {},
     password: '',
 }
 
 const CLASS_SCAFFOLD = {
     id: '',
     name: '',
-    assignments: [],
+    assignments: {},
 }
 
 const ASSIGNMENT_SCAFFOLD = {
     name: '',
     due: 0,
     points: 0,
+    type: '',
+    id: '',
 }
 
 const { v4: uuidv4 } = require('uuid');

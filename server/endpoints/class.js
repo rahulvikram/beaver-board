@@ -1,6 +1,6 @@
 const { usersAdapter } = require('../services/firestoreAdapter');
 const { authenticateToken } = require('../services/authUtility');
-const { constructAssignment } = require('../services/bbService');
+const { constructAssignment, constructClass } = require('../services/bbService');
 
 module.exports = async (app) => {
     app.post('/class', authenticateToken, async (req, res) => {
@@ -49,4 +49,20 @@ module.exports = async (app) => {
 
         return res.status(200).json({ success: true, assignment: newAssignment });
     });
+
+    app.post('/assignment/delete', authenticateToken, async (req, res) => {
+        const { assignmentId, classId } = req.body;
+        const user = req.user;
+        console.log(user);
+
+        if(!user.classes[classId]?.assignments?.[assignmentId]) {
+            console.log(user.classes[classId],classId);
+            return res.status(400).json({ success: false, message: 'Assignment or class not found' });
+        }
+
+        delete user.classes[classId].assignments[assignmentId];
+        await usersAdapter.updateById(user.id, user); 
+
+        return res.status(200).json({ success: true });
+    })
 }
