@@ -38,7 +38,7 @@ const showAddAssignmentModal = ref(false)
 const DEFAULT_NEW_ASSIGNMENT = {
   name: '',
   due: '',
-  class: '',
+  classId: '',
   points: 0,
   type: 'assignment',
 }
@@ -57,7 +57,7 @@ const submitNewAssignment = async () => {
     showAddAssignmentModal.value = false
 
     // Assign default values to newAssignment
-    newAssignment = { ...DEFAULT_NEW_ASSIGNMENT }
+    Object.assign(newAssignment, DEFAULT_NEW_ASSIGNMENT)
   }
 }
 </script>
@@ -72,7 +72,7 @@ const submitNewAssignment = async () => {
         <RouterLink to="/dashboard/profile">Profile</RouterLink>
       </nav>
     </header>
-    
+
     <RouterView v-if="Object.keys(user.classes).length > 0" :user="user" />
 
     <div id="add-button">
@@ -85,7 +85,7 @@ const submitNewAssignment = async () => {
       <h2>Add Assignment</h2>
       <input type="text" v-model="newAssignment.name" placeholder="Assignment Name" />
       <input type="date" v-model="newAssignment.due" placeholder="Due Date" />
-      <select v-model="newAssignment.class" placeholder="Class">
+      <select v-model="newAssignment.classId" placeholder="Class">
         <option v-for="classObj in user.classes" :key="classObj.id" :value="classObj.id">
           {{ classObj.name }}
         </option>
