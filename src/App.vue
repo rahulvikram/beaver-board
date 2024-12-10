@@ -1,7 +1,23 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-
+import { useRouter } from 'vue-router'
 import './assets/base.css'
+
+const router = useRouter()
+
+async function logout() {
+  console.log('logging out')
+  // clear the session storage
+  sessionStorage.clear();
+  await fetch('/api/logout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  // redirect to the login page
+  router.push('/');
+}
 </script>
 
 <template>
@@ -10,7 +26,8 @@ import './assets/base.css'
   </main>
 
   <footer>
-    <p>Created by Rahul Vikram and Leo Ueno | CS290 Project</p>
+    <p>Created by Rahul Vikram and Leo Ueno | CS290 Project |<button @click="logout">Logout</button></p>
+
   </footer>
 </template>
 
@@ -27,15 +44,28 @@ main {
 
 footer {
   position: fixed;
-  bottom: 0;
+  bottom: 0px;
   width: 100%;
   text-align: center;
-  margin-left: 70px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
 }
 
 footer > p {
   color: #fff;
   font-weight: 200;
-  font-size: 10px;
+  font-size: 11px;
 }
+
+footer > p > button {
+  color: #fff;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 200;
+  font-size: 11px;
+  border: none;
+  text-decoration: underline;
+  background-color: transparent;
+}
+
 </style>

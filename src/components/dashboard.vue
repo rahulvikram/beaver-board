@@ -1,5 +1,4 @@
 <script setup>
-import { defineAsyncComponent } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, computed } from 'vue'
 import '../assets/base.css'
