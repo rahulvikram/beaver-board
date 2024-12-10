@@ -85,15 +85,18 @@
     margin-top: 10px;
 }
 
+
+
 #signup-modal {
     display: flex;
     min-width: 400px;
     flex-direction: column;
     align-items: left;
-    /* border: 0.5px solid var(--beaver-orange); */
     border-radius: 10px;
     padding: 50px 45px;
     gap: 25px;
+    background-color: transparent;
+    box-shadow: none;
 }
 
 .modal-section {
