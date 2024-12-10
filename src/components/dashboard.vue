@@ -1,5 +1,6 @@
 <script setup>
 import { defineAsyncComponent } from 'vue'
+import { RouterLink, RouterView } from 'vue-router'
 import { ref, computed } from 'vue'
 import '../assets/base.css'
 </script>
@@ -11,7 +12,6 @@ import '../assets/base.css'
             <nav>
                 <RouterLink to="/dashboard">Timeline</RouterLink>
                 <RouterLink to="/dashboard/classes">Classes</RouterLink>
-                <RouterLink to="/dashboard/calendar">Calendar</RouterLink>
                 <RouterLink to="/dashboard/profile">Profile</RouterLink>
             </nav>
         </header>

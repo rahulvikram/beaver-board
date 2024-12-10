@@ -14,10 +14,6 @@ const routes = [
         component: () => import('../components/partials/timeline.vue')
       },
       {
-        path: 'calendar',
-        component: () => import('../components/partials/calendar.vue')
-      },
-      {
         path: 'classes',
         component: () => import('../components/partials/classes.vue')
       },

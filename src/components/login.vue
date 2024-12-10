@@ -48,6 +48,9 @@
         
         // console.log(data)
 
+        // temporarily load dashboard for dev purposes
+        router.push('/dashboard')
+
         // if data is true, navigate to dashboard
         if (data) {
             router.push('/dashboard')
@@ -89,7 +92,7 @@
 
 #signup-modal {
     display: flex;
-    min-width: 400px;
+    min-width: 390px;
     flex-direction: column;
     align-items: left;
     border-radius: 10px;
