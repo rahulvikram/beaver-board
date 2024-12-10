@@ -21,30 +21,27 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, '../dist')))
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'))
-})
-
-app.use('/auth', require('./endpoints/auth'));
-
-
+// Register API routes first
 const authEndpoints = require('./endpoints/auth');
 const classEndpoints = require('./endpoints/class');
 
 authEndpoints(app);
 classEndpoints(app);
 
-app.post('/info', authenticateToken, async (req, res) => {
+app.post('/api/info', authenticateToken, async (req, res) => {
   const user = req.user;
   console.log(user);
   user.password = undefined;
-
   res.status(200).json({ user });
-})
+});
 
-// Start the server
+// Serve static files and catch-all route after API routes
+app.use(express.static(path.join(__dirname, '../dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

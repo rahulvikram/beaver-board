@@ -8,7 +8,6 @@ import '../assets/base.css'
 
 const router = useRouter()
 
-
 // user object
 const user = ref(null)
 
@@ -19,6 +18,9 @@ onMounted(async () => {
   console.log(userData)
 
   // check if user is logged in
+  if (!userData) {
+    router.push('/login')
+  }
 })
 </script>
 
@@ -113,19 +115,39 @@ nav a {
   font-size: 18px;
   text-decoration: none;
   color: var(--beaver-orange);
-  padding: 8px 16px;
+  padding: 3px 14px;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--beaver-orange);
+  transition: all 0.2s ease-in-out;
+  transform: translateX(-50%);
+}
+
+nav a:hover::after {
+  width: calc(100% - 32px);
 }
 
 nav a:hover {
   cursor: pointer;
-  background-color: var(--beaver-orange);
-  color: var(--beaver-white);
+  color: var(--beaver-orange);
+  background-color: transparent;
 }
 
 nav a.router-link-active {
   font-weight: bold;
-  text-decoration: underline;
+}
+
+nav a.router-link-active::after {
+  width: calc(100% - 32px);
 }
 </style>
