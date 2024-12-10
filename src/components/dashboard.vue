@@ -44,7 +44,7 @@ getUser()
         <RouterLink to="/dashboard/profile">Profile</RouterLink>
       </nav>
     </header>
-    <Timeline v-if="user.classes" :user="user" />
+    <Timeline v-if="Object.keys(user.classes).length > 0" :user="user" />
     <div id="add-button">
       <button id="add-assignment-button">Add Assignment</button>
     </div>

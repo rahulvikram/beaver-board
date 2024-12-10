@@ -1,41 +1,64 @@
 <script setup>
 import { reactive, onMounted, watch } from 'vue'
 
+import TimelineAssignment from './timelineAssignment.vue'
+
 const props = defineProps({
   user: Object,
 })
 
-const assignments = reactive([])
+const timeline = reactive([])
 
 onMounted(() => {
   console.log('TDLYLILY', props.user)
   const user = props.user
 
   if (user && user.classes) {
-    assignments.length = 0
+    timeline.length = 0
+
+    const assignments = []
     for (const classId in user.classes) {
       const classObj = user.classes[classId]
       for (const assignmentId in classObj.assignments) {
         const assignment = classObj.assignments[assignmentId]
-        assignment.classId = classObj.id
+        assignment.classId = classId
         assignments.push(assignment)
       }
     }
-    console.log('User assignments', assignments)
+
+    assignments.sort((a, b) => a.due - b.due)
+
+    let lastAssignment = null
+    for (const assignment of assignments) {
+      if (!lastAssignment) continue
+
+      const dueDateDiff = assignment.due - lastAssignment.due
+
+      lastAssignment = assignment
+    }
+
+    timeline.push(...assignments)
+
+    console.log('User timeline', timeline)
   }
 })
 </script>
 
 <template>
-  <div>
-    <h1>Timeline</h1>
-    <div class="timeline">
-      <div v-for="assignment in assignments" :key="assignment.id" class="timeline-item">
-        <h2>{{ assignment.classId }}</h2>
-        <p>{{ assignment.name }}</p>
-      </div>
-    </div>
+  <div class="timeline">
+    <TimelineAssignment
+      v-for="assignment in timeline"
+      :key="assignment.id"
+      :assignment="assignment"
+      :user="user"
+    />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+</style>
