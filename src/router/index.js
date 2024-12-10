@@ -5,6 +5,10 @@ const routes = [
     path: '/', 
     component: () => import('../components/login.vue')
   },
+  {
+    path: '/login',
+    redirect: '/'
+  },
   { 
     path: '/dashboard', 
     component: () => import('../components/dashboard.vue'),

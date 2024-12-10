@@ -19,7 +19,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // specify the backend URL
-        target: process.env.VITE_API_URL || 'http://localhost:3000',
+        target: 'http://localhost:3000',
         
         // this changes the port origin from frontend to backend
         // ensures we call from express routes, not vue routes

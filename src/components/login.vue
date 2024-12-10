@@ -17,13 +17,20 @@
     async function signUpEndpoint(email, password) {
         try {
             // call fetch to send post request to express endpoint
-            const response = await fetch('/api/login', {
+            const response = await fetch('http://localhost:3000/login', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 method: 'POST',
                 body: JSON.stringify({ email, password }) // send our email and password to the backend
             })
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             // process json response
             const data = await response.json()
+            console.log(data)
             return data;
         } catch (error) {
             console.error('Error signing up:', error)
@@ -45,12 +52,6 @@
         // if email exists and password is correct, endpoint returns true
         // call the signup endpoint
         const data = await signUpEndpoint(email, password);
-        
-        // console.log(data)
-
-        // temporarily load dashboard for dev purposes
-        router.push('/dashboard')
-
         // if data is true, navigate to dashboard
         if (data) {
             router.push('/dashboard')

@@ -1,7 +1,32 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import '../assets/base.css'
+
+const router = useRouter()
+
+async function getUser() {
+    const response = await fetch('http://localhost:3000/info', {
+        method: 'POST'
+    })
+    // get user data from response
+    const data = await response.json()
+    return data.user;
+}
+
+// user object
+const user = ref(null)
+
+// get user on mount
+onMounted(async () => {
+    // get user data
+    const userData = await getUser();
+    console.log(userData);
+
+    // check if user is logged in
+})
 </script>
 
 <template>
@@ -14,6 +39,9 @@ import '../assets/base.css'
                 <RouterLink to="/dashboard/profile">Profile</RouterLink>
             </nav>
         </header>
+        <div>
+            <!-- <p>{{ user.name }}</p> -->
+        </div>
     </div>
     <main>
         <!-- renders various views based on the route -->

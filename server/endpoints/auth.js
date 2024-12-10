@@ -15,7 +15,7 @@ module.exports = async (app) => {
         if (!(email && password)) {
           validRequest = false;
         }
-      
+  
         if (validRequest) {
           try {
             user = (await usersAdapter.search('email', '==', email))[0];
@@ -23,7 +23,8 @@ module.exports = async (app) => {
             validRequest = user.password === password;
           } catch (error) {
             validRequest = false;
-          } 
+          }
+
         }
       
         if (!user) {

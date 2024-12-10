@@ -9,7 +9,7 @@ async function logout() {
   console.log('logging out')
   // clear the session storage
   sessionStorage.clear();
-  await fetch('/api/logout', {
+  await fetch('http://localhost:3000/logout', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
