@@ -2,54 +2,46 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 
+const serviceAccount = require('../service-account.json');
 const { initializeApp, cert } = require('firebase-admin/app');
-const { getFirestore, Timestamp, FieldValue, Filter } = require('firebase-admin/firestore');
-const serviceAccount = require('./service-account.json');
-
-// initialize the firebase app
 initializeApp({
-  credential: cert(serviceAccount) // use the service account to authenticate
+  credential: cert(serviceAccount)
 });
 
-// get the firestore database
-const db = getFirestore();
+const { authenticateToken } = require('./services/authUtility');
 
-// test function
-async function getDueDate() {
-  try {
-    const doc = db.collection('users')
-                .doc('OBz3Qb0DVHKyJtAvK6e8')
-                .collection('classes') 
-                .doc('0lv92s48vK')
-                .get();
-    if (doc.exists) {
-      const dueDate = doc.data().assignments[0].due.toDate();
-      return dueDate;
-    }
-    return null;
-  } catch (error) {
-    console.error('Error fetching due date:', error);
-    throw error;
-  }
-}
-
-// Express
-// Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
-// Serve static files from 'dist' directory
-// occurs when 'npm run build' is executed
 app.use(express.static(path.join(__dirname, '../dist')))
 
-// Handle SPA routing - this handles all routes that are not defined in the server, but are defined via vue routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'))
+})
+
+app.use('/auth', require('./endpoints/auth'));
+
+
+const authEndpoints = require('./endpoints/auth');
+const classEndpoints = require('./endpoints/class');
+
+authEndpoints(app);
+classEndpoints(app);
+
+app.post('/info', authenticateToken, async (req, res) => {
+  const user = req.user;
+  console.log(user);
+  user.password = undefined;
+
+  res.status(200).json({ user });
 })
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-

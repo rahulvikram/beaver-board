@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "An app where student users can keep track of their upcoming assignments, projects and exams",
   "private": true,
-  "main": "server/index.js",
+  "main": "src/main.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^1.7.8",
     "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2",
     "vue": "^3.5.12",
     "vue-router": "^4.5.0"
   },
