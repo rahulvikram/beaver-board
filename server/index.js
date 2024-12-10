@@ -15,7 +15,22 @@ initializeApp({
 const { authenticateToken } = require('./services/authUtility');
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, false);
+    try {
+      const originHost = new URL(origin).hostname;
+      const serverHost = 'localhost';
+      if (originHost === serverHost) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    } catch (err) {
+      callback(new Error('Invalid Origin'));
+    }
+  }
+}));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../dist')))

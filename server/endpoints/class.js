@@ -1,46 +1,39 @@
 const { usersAdapter } = require('../services/firestoreAdapter');
 const { authenticateToken } = require('../services/authUtility');
+const { constructAssignment } = require('../services/bbService');
 
 module.exports = async (app) => {
+    app.post('/class', authenticateToken, async (req, res) => {
+        const { name } = req.body;
+        const user = req.user;
+        console.log(user);
+    })
+
     app.post('/assignment', authenticateToken, async (req, res) => {
-        const { name, due, points, type } = req.body;
+        const { name, due, points, type, classId } = req.body;
         const user = req.user;
         console.log(user);
         
+        let newAssignment;
         // Validate
         try {
-            if (!name || !due || !points || !type) {
-                throw new Error("Missing assignment information");
+            const classObj = user.classes[classId];
+            if(!classObj) {
+                throw new Error('Class not found');
             }
 
-            if (type !== "assignment" && type !== "exam") {
-                throw new Error("Invalid assignment type");
-            }
-
-            if (isNaN(points) || points <= 0) {
-                throw new Error("Invalid points");
-            }
-
-            if (isNaN(due) || due <= 0) {
-                throw new Error("Invalid due date");
-            }
-
-            if (name.length === 0 || name.length > 100) {
-                throw new Error("Invalid name");
-            }
+            newAssignment = constructAssignment(name, due, points, type);
         } catch (error) {
             return res.status(400).json({ success: false, message: error.message });
         }
 
         // Create assignment
-        const assignment = {
-            name,
-            due,
-            points,
-            type,
-        }
-        console.log(assignment);
+        console.log(newAssignment);
 
-        return res.status(200).json({ success: true, assignment });
+        user.classes[classId].assignments[newAssignment.id] = newAssignment;
+        await usersAdapter.updateById(user.id, user); 
+
+
+        return res.status(200).json({ success: true, assignment: newAssignment });
     });
 }

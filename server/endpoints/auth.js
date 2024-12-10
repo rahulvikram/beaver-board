@@ -19,17 +19,12 @@ module.exports = async (app) => {
           usersQuery = await usersAdapter.search('email', '==', email);
 
           if (usersQuery.length === 0) {
-            // create new user
-
-
+            validRequest = false;
           } else {
             user = usersQuery[0];
             console.log(user)
             validRequest = user.password === password;
           }
-
-
-
         }
       
         if (!user) {

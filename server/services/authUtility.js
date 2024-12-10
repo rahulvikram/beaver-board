@@ -5,6 +5,7 @@ const serviceAccount = require('../../service-account.json');
 async function authenticateToken(req, res, next) {
     // Retrieve the token from cookies
     const token = req.cookies.token;
+    console.log(req.cookies);
     if (!token) {
       return res.status(401).json({ success: false, message: 'Access Denied: No Token Provided' });
     }
