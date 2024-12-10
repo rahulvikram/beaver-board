@@ -1,38 +1,29 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { ref, computed } from 'vue'
-import { getUser } from '../../utils/getUserInfo';
-import '../../assets/base.css'
+import { reactive } from 'vue'
 
-const router = useRouter()
-
-
-// user object
-const user = ref(null)
-
-// get user on mount
-onMounted(async () => {
-  // get user data
-  const userData = await getUser();
-  console.log(userData)
-
-  if (!userData) {
-    router.push('/login')
-  }
+const props = defineProps({
+  user: Object,
 })
 
+const user = props.user
+
+console.log('USER', user)
+
+const assignments = reactive([])
+
+for (const classObj of user.classes) {
+  for (const assignment of classObj.assignments) {
+    assignment.classId = classObj.id
+    assignments.push(assignment)
+  }
+}
+console.log(assignments);
 </script>
 
 <template>
     <div class="profile">
-        <p>Fuck this stupid class</p>
+        <h1>{{ user.name }}</h1>
     </div>
 </template>
 
-<style scoped>
-.profile {
-    background-color: transparent;
-}
-</style>
+<style scoped></style>
