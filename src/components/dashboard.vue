@@ -59,6 +59,8 @@ const submitNewAssignment = async () => {
     // Assign default values to newAssignment
     Object.assign(newAssignment, DEFAULT_NEW_ASSIGNMENT)
   }
+
+  window.location.reload()
 }
 </script>
 
@@ -224,7 +226,7 @@ nav a:not(.router-link-exact-active)::after {
   gap: 25px;
   background-color: #0d0e14;
   color: var(--beaver-white);
-  box-shadow: 
+  box-shadow:
     inset 0 120px 30px -30px rgba(255, 255, 255, 0.014),
     0 0 15px rgba(0, 0, 0, 0.3);
   z-index: 1000;
