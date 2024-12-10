@@ -1,31 +1,38 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted, watch } from 'vue'
 
 const props = defineProps({
   user: Object,
 })
 
-const user = props.user
-
 const assignments = reactive([])
 
-console.log('TDLYLILY', user)
+onMounted(() => {
+  console.log('TDLYLILY', props.user)
+  const user = props.user
 
-for (const classObj of user.classes) {
-  for (const assignment of classObj.assignments) {
-    assignment.classId = classObj.id
-    assignments.push(assignment)
+  if (user && user.classes) {
+    assignments.length = 0
+    for (const classId in user.classes) {
+      const classObj = user.classes[classId]
+      for (const assignmentId in classObj.assignments) {
+        const assignment = classObj.assignments[assignmentId]
+        assignment.classId = classObj.id
+        assignments.push(assignment)
+      }
+    }
+    console.log('User assignments', assignments)
   }
-}
+})
 </script>
 
 <template>
   <div>
     <h1>Timeline</h1>
     <div class="timeline">
-      <div class="timeline-item">
-        <h2>Class 1</h2>
-        <p>Assignment 1</p>
+      <div v-for="assignment in assignments" :key="assignment.id" class="timeline-item">
+        <h2>{{ assignment.classId }}</h2>
+        <p>{{ assignment.name }}</p>
       </div>
     </div>
   </div>

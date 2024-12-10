@@ -6,6 +6,8 @@ import { ref, computed, reactive } from 'vue'
 import { getUser } from '../utils/getUserInfo'
 import '../assets/base.css'
 
+import Timeline from './partials/timeline.vue'
+
 const router = useRouter()
 
 // user object
@@ -42,7 +44,7 @@ getUser()
         <RouterLink to="/dashboard/profile">Profile</RouterLink>
       </nav>
     </header>
-    <Timeline :user="user" />
+    <Timeline v-if="user.classes" :user="user" />
     <div id="add-button">
       <button id="add-assignment-button">Add Assignment</button>
     </div>
