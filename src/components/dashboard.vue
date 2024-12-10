@@ -14,7 +14,7 @@ async function getUser() {
   })
   // get user data from response
   const data = await response.json()
-  return data;
+  return data
 }
 
 // user object
