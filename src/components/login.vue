@@ -2,12 +2,22 @@
     import '../assets/base.css'
     import { ref, onMounted } from 'vue'
     import { useRouter } from 'vue-router'
-
+    import { getUser } from '../utils/getUserInfo'
 
     const router = useRouter()
     // focus on the email input
     const emailInput = ref(null)
     const errorMessage = ref('') // focus on error message
+
+    // if we are already logged in, redirect to dashboard
+    onMounted(async () => {
+        const userData = await getUser();
+        if (userData) {
+            router.push('/dashboard')
+        }
+    })
+
+    // focus on the email input
     onMounted(() => {
         // This code runs after the component is mounted
         emailInput.value?.focus() // Auto-focus the email input
@@ -17,23 +27,23 @@
     async function signUpEndpoint(email, password) {
         try {
             // call fetch to send post request to express endpoint
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch('/api/login', {
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 method: 'POST',
-                body: JSON.stringify({ email, password }) // send our email and password to the backend
+                credentials: 'include',
+                body: JSON.stringify({ email, password })
             })
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            // process json response
             const data = await response.json()
-            console.log(data)
-            return data;
+            return data.success;
         } catch (error) {
             console.error('Error signing up:', error)
+            return false;
         }
     }
 

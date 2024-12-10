@@ -3,19 +3,11 @@ import { RouterLink, RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
+import { getUser } from '../utils/getUserInfo'
 import '../assets/base.css'
 
 const router = useRouter()
 
-async function getUser() {
-  const response = await fetch('http://localhost:3000/info', {
-    method: 'POST',
-    credentials: 'include',
-  })
-  // get user data from response
-  const data = await response.json()
-  return data;
-}
 
 // user object
 const user = ref(null)
@@ -23,7 +15,7 @@ const user = ref(null)
 // get user on mount
 onMounted(async () => {
   // get user data
-  const userData = await getUser()
+  const userData = await getUser();
   console.log(userData)
 
   // check if user is logged in
@@ -39,11 +31,15 @@ onMounted(async () => {
         <RouterLink to="/dashboard/classes">Classes</RouterLink>
         <RouterLink to="/dashboard/profile">Profile</RouterLink>
       </nav>
+
     </header>
-    <div>
-      <!-- <p>{{ user.name }}</p> -->
+    <div class="timeline-view">
+        
     </div>
-  </div>
+    <div id="add-button">
+      <button id="add-assignment-button">Add Assignment</button>
+    </div>
+</div>
   <main>
     <!-- renders various views based on the route -->
     <RouterView />
@@ -76,5 +72,60 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
+}
+
+#add-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100;
+}
+
+#add-assignment-button {
+  padding: 7px;
+  border-radius: 5px;
+  color: var(--beaver-white);
+  font-size: 14px;
+  font-weight: 500;
+  /* box-shadow: inset 0 -12  0px 30px -30px rgba(255, 255, 255, 0.014); */
+  /* box-shadow: 0 0 18px var(--beaver-orange); */
+  background-color: transparent;
+  border: 1px solid var(--beaver-orange);
+  transition: all 0.2s ease-in-out;
+}
+
+#add-assignment-button:hover {
+    background-color: var(--beaver-orange);
+    box-shadow: 0 0 10px var(--beaver-orange);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+nav {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  font-size: 18px;
+  text-decoration: none;
+  color: var(--beaver-orange);
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+nav a:hover {
+  cursor: pointer;
+  background-color: var(--beaver-orange);
+  color: var(--beaver-white);
+}
+
+nav a.router-link-active {
+  font-weight: bold;
+  text-decoration: underline;
 }
 </style>
