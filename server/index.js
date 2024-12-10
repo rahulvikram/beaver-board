@@ -19,17 +19,17 @@ app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, false);
     try {
-      const originHost = new URL(origin).hostname;
-      const serverHost = 'localhost';
-      if (originHost === serverHost) {
-        callback(null, true);
+      const allowedOrigin = 'http://localhost:5173';
+      if (origin === allowedOrigin) {
+        callback(null, origin);
       } else {
         callback(new Error('Not allowed by CORS'));
       }
     } catch (err) {
       callback(new Error('Invalid Origin'));
     }
-  }
+  },
+  credentials: true
 }));
 app.use(cookieParser());
 
