@@ -32,12 +32,12 @@ const deleteAssignment = async () => {
       credentials: 'include',
       body: JSON.stringify({
         assignmentId: assignment.id,
-        classId: assignment.classId
-      })
+        classId: assignment.classId,
+      }),
     })
 
     const data = await response.json()
-    
+
     if (data.success) {
       // Emit an event to parent component to refresh the timeline
       window.location.reload()
@@ -57,11 +57,11 @@ const deleteAssignment = async () => {
       <h2>{{ assignment.name }}</h2>
       <div class="timeline-card-info">
         <p>{{ getClass(assignment.classId).name }}</p>
-        <p :class="{ 'overdue': isOverdue(assignment.due) }">{{ formatDate(assignment.due) }}</p>
+        <p :class="{ overdue: isOverdue(assignment.due) }">{{ formatDate(assignment.due) }}</p>
         <p>{{ assignment.points }} Point{{ assignment.points > 1 ? 's' : '' }}</p>
         <p>{{ assignment.type == 'assignment' ? 'Assignment' : 'Exam' }}</p>
+        <button class="delete-button" @click="deleteAssignment">Delete</button>
       </div>
-    <button class="delete-button" @click="deleteAssignment">Delete</button>
     </div>
   </div>
 </template>
@@ -93,6 +93,7 @@ const deleteAssignment = async () => {
 .timeline-card-info {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
 .overdue {
@@ -100,15 +101,14 @@ const deleteAssignment = async () => {
 }
 
 .delete-button {
-  padding: 7px;
+  padding: 5px;
   border-radius: 5px;
   color: var(--beaver-white);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   background-color: transparent;
   border: 1px solid var(--beaver-orange);
   transition: all 0.2s ease-in-out;
-  margin-top: 10px;
   align-self: flex-end;
 }
 
