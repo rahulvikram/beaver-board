@@ -1,10 +1,9 @@
-
 const { usersAdapter } = require('../services/firestoreAdapter');
 const serviceAccount = require('../../service-account.json');
 const jwt = require('jsonwebtoken');
 
 module.exports = async (app) => {
-    app.post('/login' , async (req, res) => {
+    app.post('/api/login' , async (req, res) => {
         const { email, password } = req.body;
         console.log(email, password);
       
@@ -46,7 +45,7 @@ module.exports = async (app) => {
         return res.status(200).json({ success: true, id: user.id });
       });
       
-      app.post('/logout', (req, res) => {
+      app.post('/api/logout', (req, res) => {
         res.clearCookie('token');
         return res.status(200).json({ success: true });
       });
