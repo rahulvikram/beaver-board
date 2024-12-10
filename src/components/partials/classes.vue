@@ -29,6 +29,37 @@ onMounted(() => {
 const isOverdue = (dueDate) => {
   return new Date(dueDate) < new Date()
 }
+
+const addClass = async () => {
+  // Prompt user for class name
+  const className = prompt('Enter class name:')
+  
+  if (!className) return // Exit if user cancels or enters empty string
+  
+  try {
+    const response = await fetch('http://localhost:3000/class', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ name: className })
+    })
+
+    const data = await response.json()
+    
+    if (data.success) {
+      // Refresh the page to show new class
+      window.location.reload()
+    } else {
+      alert(data.message || 'Failed to add class')
+    }
+  } catch (error) {
+    console.error('Error adding class:', error)
+    alert('Error adding class')
+  }
+}
+
 </script>
 
 <template>
@@ -50,9 +81,7 @@ const isOverdue = (dueDate) => {
         </div>
       </div>
     </div>
-    <div v-else class="no-classes">
-      No classes enrolled
-    </div>
+    <button class="add-class-button" @click="addClass">Add Class</button>
   </div>
 </template>
 
@@ -134,5 +163,25 @@ const isOverdue = (dueDate) => {
 
 .overdue {
   color: #ff4444 !important;
+}
+
+.add-class-button {
+  margin-bottom: 20px;
+  padding: 7px;
+  border-radius: 5px;
+  color: var(--beaver-white);
+  font-size: 14px;
+  font-weight: 500;
+  background-color: transparent;
+  border: 1px solid var(--beaver-orange);
+  transition: all 0.2s ease-in-out;
+  margin-top: 20px;
+}
+
+.add-class-button:hover {
+  background-color: var(--beaver-orange);
+  box-shadow: 0 0 10px var(--beaver-orange);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 </style>
