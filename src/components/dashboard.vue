@@ -44,16 +44,13 @@ getUser()
         <RouterLink to="/dashboard/profile">Profile</RouterLink>
       </nav>
     </header>
-    <Timeline v-if="Object.keys(user.classes).length > 0" :user="user" />
+    
+    <RouterView v-if="Object.keys(user.classes).length > 0" :user="user" />
 
     <div id="add-button">
       <button id="add-assignment-button">Add Assignment</button>
     </div>
   </div>
-  <main>
-    <!-- renders various views based on the route -->
-    <RouterView />
-  </main>
 </template>
 
 <style scoped>
