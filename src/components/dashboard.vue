@@ -15,6 +15,7 @@ const user = ref(null)
 onMounted(async () => {
   // get user data
   const userData = await getUser();
+  
   console.log(userData)
 
   // check if user is logged in
@@ -36,11 +37,11 @@ onMounted(async () => {
 
     </header>
     <div class="timeline-view">
-        
+
     </div>
-    <div id="add-button">
+    <!-- <div id="add-button">
       <button id="add-assignment-button">Add Assignment</button>
-    </div>
+    </div> -->
 </div>
   <main>
     <!-- renders various views based on the route -->

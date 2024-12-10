@@ -26,7 +26,6 @@
     // call to express endpoint for signup validation
     async function signUpEndpoint(email, password) {
         try {
-            // call fetch to send post request to express endpoint
             const response = await fetch('/api/login', {
                 headers: {
                     'Content-Type': 'application/json'

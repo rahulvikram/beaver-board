@@ -7,13 +7,12 @@ const router = useRouter()
 
 async function logout() {
   console.log('logging out')
-  // clear the session storage
-  sessionStorage.clear();
-  await fetch('http://localhost:3000/logout', {
+  await fetch('/api/logout', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    credentials: 'include'
   });
   // redirect to the login page
   router.push('/');
