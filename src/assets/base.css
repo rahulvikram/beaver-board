@@ -48,6 +48,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,
+h2,
+p {
+  color: var(--beaver-white);
+}
+
 html {
   background-color: var(--beaver-black);
 }

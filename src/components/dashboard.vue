@@ -2,26 +2,34 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { getUser } from '../utils/getUserInfo'
 import '../assets/base.css'
 
 const router = useRouter()
 
 // user object
-const user = ref(null)
-
-// get user on mount
-onMounted(async () => {
-  // get user data
-  const userData = await getUser();
-  console.log(userData)
-
-  // check if user is logged in
-  if (!userData) {
-    router.push('/login')
-  }
+const user = reactive({
+  id: '',
+  email: '',
+  name: '',
+  classes: {},
+  password: '',
 })
+
+getUser()
+  .then((data) => {
+    console.log('Fetched user data:', data)
+    user.id = data.id
+    user.email = data.email
+    user.name = data.name
+    user.classes = data.classes
+    user.password = data.password
+  })
+  .catch((error) => {
+    console.error('Error fetching user data:', error)
+    router.push('/login')
+  })
 </script>
 
 <template>
@@ -33,15 +41,12 @@ onMounted(async () => {
         <RouterLink to="/dashboard/classes">Classes</RouterLink>
         <RouterLink to="/dashboard/profile">Profile</RouterLink>
       </nav>
-
     </header>
-    <div class="timeline-view">
-        
-    </div>
+    <Timeline :user="user" />
     <div id="add-button">
       <button id="add-assignment-button">Add Assignment</button>
     </div>
-</div>
+  </div>
   <main>
     <!-- renders various views based on the route -->
     <RouterView />
@@ -97,10 +102,10 @@ header {
 }
 
 #add-assignment-button:hover {
-    background-color: var(--beaver-orange);
-    box-shadow: 0 0 10px var(--beaver-orange);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+  background-color: var(--beaver-orange);
+  box-shadow: 0 0 10px var(--beaver-orange);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 nav {
