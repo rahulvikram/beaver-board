@@ -17,6 +17,10 @@ const formatDate = (date) => {
     year: 'numeric',
   })
 }
+
+const isOverdue = (dueDate) => {
+  return new Date(dueDate) < new Date()
+}
 </script>
 <template>
   <div class="timeline-item">
@@ -25,7 +29,7 @@ const formatDate = (date) => {
       <h2>{{ assignment.name }}</h2>
       <div class="timeline-card-info">
         <p>{{ getClass(assignment.classId).name }}</p>
-        <p>{{ formatDate(assignment.due) }}</p>
+        <p :class="{ 'overdue': isOverdue(assignment.due) }">{{ formatDate(assignment.due) }}</p>
         <p>{{ assignment.points }} Point{{ assignment.points > 1 ? 's' : '' }}</p>
         <p>{{ assignment.type == 'assignment' ? 'Assignment' : 'Exam' }}</p>
       </div>
@@ -58,5 +62,9 @@ const formatDate = (date) => {
 .timeline-card-info {
   display: flex;
   gap: 15px;
+}
+
+.overdue {
+  color: #ff4444;
 }
 </style>
