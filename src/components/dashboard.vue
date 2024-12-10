@@ -72,7 +72,8 @@ const submitNewAssignment = async () => {
         <RouterLink to="/dashboard/profile">Profile</RouterLink>
       </nav>
     </header>
-    <Timeline v-if="Object.keys(user.classes).length > 0" :user="user" />
+    
+    <RouterView v-if="Object.keys(user.classes).length > 0" :user="user" />
 
     <div id="add-button">
       <button id="add-assignment-button" @click="showAddAssignmentModal = true">
@@ -100,10 +101,6 @@ const submitNewAssignment = async () => {
       </div>
     </div>
   </div>
-  <main>
-    <!-- renders various views based on the route -->
-    <RouterView />
-  </main>
 </template>
 
 <style scoped>
