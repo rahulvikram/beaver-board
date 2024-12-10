@@ -24,6 +24,11 @@ onMounted(() => {
     console.log('User assignments', assignments)
   }
 })
+
+// Add this computed function to check if assignment is overdue
+const isOverdue = (dueDate) => {
+  return new Date(dueDate) < new Date()
+}
 </script>
 
 <template>
@@ -38,7 +43,9 @@ onMounted(() => {
           </div>
           <div v-else v-for="(assignment, assignmentId) in classObj.assignments" :key="assignmentId" class="assignment-item">
             <h3>{{ assignment.name }}</h3>
-            <p>Due: {{ new Date(assignment.due).toLocaleDateString() }}</p>
+            <p :class="{ 'overdue': isOverdue(assignment.due) }">
+              Due: {{ new Date(assignment.due).toLocaleDateString() }}
+            </p>
           </div>
         </div>
       </div>
@@ -123,5 +130,9 @@ onMounted(() => {
   text-align: center;
   padding: 20px;
   color: rgba(255, 255, 255, 0.5);
+}
+
+.overdue {
+  color: #ff4444 !important;
 }
 </style>
