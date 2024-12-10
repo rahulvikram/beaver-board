@@ -22,6 +22,7 @@ onMounted(() => {
       for (const assignmentId in classObj.assignments) {
         const assignment = classObj.assignments[assignmentId]
         assignment.classId = classId
+        assignment.type = 'assignment'
         assignments.push(assignment)
       }
     }
@@ -31,8 +32,6 @@ onMounted(() => {
     let lastAssignment = null
     for (const assignment of assignments) {
       if (!lastAssignment) continue
-
-      const dueDateDiff = assignment.due - lastAssignment.due
 
       lastAssignment = assignment
     }
@@ -46,12 +45,12 @@ onMounted(() => {
 
 <template>
   <div class="timeline">
-    <TimelineAssignment
-      v-for="assignment in timeline"
-      :key="assignment.id"
-      :assignment="assignment"
-      :user="user"
-    />
+    <div v-for="item in timeline" :key="item.id">
+      <TimelineAssignment v-if="item.type === 'assignment'" :assignment="item" :user="user" />
+      <div v-else>
+        {{ item.text }}
+      </div>
+    </div>
   </div>
 </template>
 

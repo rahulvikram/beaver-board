@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ref, computed, reactive } from 'vue'
-import { getUser } from '../utils/getUserInfo'
+import { getUser, addAssignment } from '../utils/getUserInfo'
 import '../assets/base.css'
 
 import Timeline from './partials/timeline.vue'
@@ -32,6 +32,34 @@ getUser()
     console.error('Error fetching user data:', error)
     router.push('/login')
   })
+
+const showAddAssignmentModal = ref(false)
+
+const DEFAULT_NEW_ASSIGNMENT = {
+  name: '',
+  due: '',
+  class: '',
+  points: 0,
+  type: 'assignment',
+}
+
+const newAssignment = reactive({ ...DEFAULT_NEW_ASSIGNMENT })
+
+const submitNewAssignment = async () => {
+  newAssignment.date = new Date(newAssignment.date).getTime()
+
+  const response = await addAssignment(newAssignment)
+
+  if (!response.success) {
+    alert(response.message)
+  } else {
+    alert('Assignment added successfully')
+    showAddAssignmentModal.value = false
+
+    // Assign default values to newAssignment
+    newAssignment = { ...DEFAULT_NEW_ASSIGNMENT }
+  }
+}
 </script>
 
 <template>
@@ -47,7 +75,29 @@ getUser()
     <Timeline v-if="Object.keys(user.classes).length > 0" :user="user" />
 
     <div id="add-button">
-      <button id="add-assignment-button">Add Assignment</button>
+      <button id="add-assignment-button" @click="showAddAssignmentModal = true">
+        Add Assignment
+      </button>
+    </div>
+
+    <div v-if="showAddAssignmentModal" class="modal">
+      <h2>Add Assignment</h2>
+      <input type="text" v-model="newAssignment.name" placeholder="Assignment Name" />
+      <input type="date" v-model="newAssignment.due" placeholder="Due Date" />
+      <select v-model="newAssignment.class" placeholder="Class">
+        <option v-for="classObj in user.classes" :key="classObj.id" :value="classObj.id">
+          {{ classObj.name }}
+        </option>
+      </select>
+      <input type="number" v-model="newAssignment.points" placeholder="Points" />
+      <select v-model="newAssignment.type" placeholder="Type">
+        <option value="assignment">Assignment</option>
+        <option value="exam">Exam</option>
+      </select>
+      <div class="modal-buttons">
+        <button @click="submitNewAssignment">Submit</button>
+        <button @click="showAddAssignmentModal = false">Cancel</button>
+      </div>
     </div>
   </div>
   <main>
