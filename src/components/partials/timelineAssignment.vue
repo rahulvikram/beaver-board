@@ -70,6 +70,8 @@ const deleteAssignment = async () => {
   display: flex;
   gap: 25px;
   align-items: center;
+  z-index: 100;
+  position: relative;
 }
 
 .timeline-card-dot {

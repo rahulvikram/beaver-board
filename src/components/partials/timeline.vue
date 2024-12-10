@@ -21,6 +21,12 @@ onMounted(() => {
       const classObj = user.classes[classId]
       for (const assignmentId in classObj.assignments) {
         const assignment = classObj.assignments[assignmentId]
+
+        // If assignment.due has a `-`, convert to ms time
+        if (assignment.due.toString().includes('-')) {
+          assignment.due = new Date(assignment.due).getTime()
+        }
+
         assignment.classId = classId
         assignment.type = 'assignment'
         assignments.push(assignment)
@@ -45,6 +51,7 @@ onMounted(() => {
 
 <template>
   <div class="timeline">
+    <div class="timeline-bar"></div>
     <div v-for="item in timeline" :key="item.id">
       <TimelineAssignment v-if="item.type === 'assignment'" :assignment="item" :user="user" />
       <div v-else>
@@ -59,5 +66,15 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 50vw;
+  position: relative;
+}
+
+.timeline-bar {
+  height: 100%;
+  position: absolute;
+  background-color: lightgray;
+  width: 5px;
+  left: 7.5px;
 }
 </style>
