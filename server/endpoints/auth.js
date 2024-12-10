@@ -1,6 +1,5 @@
 
 const { usersAdapter } = require('../services/firestoreAdapter');
-const { authenticateToken } = require('../index');
 const serviceAccount = require('../../service-account.json');
 const jwt = require('jsonwebtoken');
 
@@ -17,13 +16,20 @@ module.exports = async (app) => {
         }
       
         if (validRequest) {
-          try {
-            user = (await usersAdapter.search('email', '==', email))[0];
+          usersQuery = await usersAdapter.search('email', '==', email);
+
+          if (usersQuery.length === 0) {
+            // create new user
+
+
+          } else {
+            user = usersQuery[0];
             console.log(user)
             validRequest = user.password === password;
-          } catch (error) {
-            validRequest = false;
-          } 
+          }
+
+
+
         }
       
         if (!user) {
