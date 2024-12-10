@@ -43,6 +43,8 @@ getUser()
       </nav>
     </header>
     <Timeline :user="user" />
+    <Classes :user="user" />
+    <Profile :user="user" />
     <div id="add-button">
       <button id="add-assignment-button">Add Assignment</button>
     </div>
@@ -148,11 +150,15 @@ nav a:hover {
   background-color: transparent;
 }
 
-nav a.router-link-active {
+nav a.router-link-exact-active {
   font-weight: bold;
 }
 
-nav a.router-link-active::after {
+nav a.router-link-exact-active::after {
   width: calc(100% - 32px);
+}
+
+nav a:not(.router-link-exact-active)::after {
+  width: 0;
 }
 </style>
