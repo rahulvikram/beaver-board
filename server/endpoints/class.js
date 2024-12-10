@@ -7,6 +7,19 @@ module.exports = async (app) => {
         const { name } = req.body;
         const user = req.user;
         console.log(user);
+
+        let newClass;
+        try {
+            newClass = constructClass(name);
+        } catch (error) {
+            return res.status(400).json({ success: false, message: error.message });
+        }
+
+        user.classes[newClass.id] = newClass;
+        await usersAdapter.updateById(user.id, user); 
+
+        console.log(user);
+        return res.status(200).json({ success: true, class: newClass });
     })
 
     app.post('/assignment', authenticateToken, async (req, res) => {
