@@ -17,6 +17,9 @@ export async function addAssignment(assignment) {
       method: 'POST',
       body: JSON.stringify(assignment),
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
     return response.json();
   } catch (error) {
