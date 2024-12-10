@@ -21,6 +21,34 @@ const formatDate = (date) => {
 const isOverdue = (dueDate) => {
   return new Date(dueDate) < new Date()
 }
+
+const deleteAssignment = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/assignment/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        assignmentId: assignment.id,
+        classId: assignment.classId
+      })
+    })
+
+    const data = await response.json()
+    
+    if (data.success) {
+      // Emit an event to parent component to refresh the timeline
+      window.location.reload()
+    } else {
+      alert('Failed to delete assignment')
+    }
+  } catch (error) {
+    console.error('Error deleting assignment:', error)
+    alert('Error deleting assignment')
+  }
+}
 </script>
 <template>
   <div class="timeline-item">
@@ -33,6 +61,7 @@ const isOverdue = (dueDate) => {
         <p>{{ assignment.points }} Point{{ assignment.points > 1 ? 's' : '' }}</p>
         <p>{{ assignment.type == 'assignment' ? 'Assignment' : 'Exam' }}</p>
       </div>
+    <button class="delete-button" @click="deleteAssignment">Delete</button>
     </div>
   </div>
 </template>
@@ -66,5 +95,25 @@ const isOverdue = (dueDate) => {
 
 .overdue {
   color: #ff4444;
+}
+
+.delete-button {
+  padding: 7px;
+  border-radius: 5px;
+  color: var(--beaver-white);
+  font-size: 14px;
+  font-weight: 500;
+  background-color: transparent;
+  border: 1px solid var(--beaver-orange);
+  transition: all 0.2s ease-in-out;
+  margin-top: 10px;
+  align-self: flex-end;
+}
+
+.delete-button:hover {
+  background-color: var(--beaver-orange);
+  box-shadow: 0 0 10px var(--beaver-orange);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 </style>
