@@ -209,4 +209,91 @@ nav a.router-link-exact-active::after {
 nav a:not(.router-link-exact-active)::after {
   width: 0;
 }
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  min-width: 390px;
+  flex-direction: column;
+  align-items: left;
+  border-radius: 10px;
+  padding: 50px 45px;
+  gap: 25px;
+  background-color: #0d0e14;
+  color: var(--beaver-white);
+  box-shadow: 
+    inset 0 120px 30px -30px rgba(255, 255, 255, 0.014),
+    0 0 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.modal h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 34px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.modal input,
+.modal select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(87, 87, 87);
+  background-color: #121212;
+  outline: 1px solid transparent;
+  transition: outline 0.2s ease-in-out;
+  color: white;
+  font-size: 17px;
+  width: 100%;
+}
+
+.modal input:focus,
+.modal select:focus {
+  outline: 1px solid var(--beaver-orange);
+  outline-offset: -1px;
+  transition: outline 0.2s ease-in-out;
+  caret-color: white;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 17px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  flex: 1;
+}
+
+.modal-buttons button:first-child {
+  background-color: var(--beaver-orange);
+  color: var(--beaver-white);
+  border: none;
+  box-shadow: 0 0 10px var(--beaver-orange);
+}
+
+.modal-buttons button:first-child:hover {
+  box-shadow: 0 0 18px var(--beaver-orange);
+  cursor: pointer;
+}
+
+.modal-buttons button:last-child {
+  background-color: transparent;
+  color: var(--beaver-white);
+  border: 1px solid var(--beaver-orange);
+}
+
+.modal-buttons button:last-child:hover {
+  background-color: var(--beaver-orange);
+  box-shadow: 0 0 10px var(--beaver-orange);
+  cursor: pointer;
+}
 </style>
